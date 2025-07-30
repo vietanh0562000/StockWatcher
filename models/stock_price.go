@@ -13,5 +13,5 @@ type StockPrice struct {
 	Volume    int64     `gorm:"not null" json:"volume"`
 
 	// Relationship
-	Stock Stock `gorm:"foreignKey:StockID" json:"stock,omitempty"`
+	Stock Symbol `gorm:"foreignKey:StockID" json:"stock,omitempty"`
 }

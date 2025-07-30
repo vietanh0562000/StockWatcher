@@ -12,27 +12,29 @@ var Instance *Storage
 var once sync.Once
 
 type Storage struct {
-	StockRepo      StockRepository
+	SymbolRepo     SymbolRepository
 	StockPriceRepo StockPriceRepository
+	QuoteRepo      QuoteRepository
 }
 
 func GetStorageInstance(db *gorm.DB) *Storage {
 	once.Do(func() {
 		Instance = &Storage{
-			StockRepo:      repository.NewPostgresStockRepository(db),
+			SymbolRepo:     repository.NewPostgresSymbolRepository(db),
 			StockPriceRepo: repository.NewPostgresStockPriceRepository(db),
+			QuoteRepo:      repository.NewPostgresQuoteRepository(db),
 		}
 	})
 
 	return Instance
 }
 
-type StockRepository interface {
-	CreateStock(stock *models.Stock) error
-	GetStockByID(id uint) (*models.Stock, error)
-	GetAllStocks() ([]models.Stock, error)
-	UpdateStock(stock *models.Stock) error
-	DeleteStock(id uint) error
+type SymbolRepository interface {
+	CreateSymbol(symbol *models.Symbol) error
+	GetSymbolByID(id uint) (*models.Symbol, error)
+	GetAllSymbols() ([]models.Symbol, error)
+	UpdateSymbol(symbol *models.Symbol) error
+	DeleteSymbol(id uint) error
 }
 
 type StockPriceRepository interface {
@@ -41,4 +43,13 @@ type StockPriceRepository interface {
 	GetPricesByStockID(stockID uint) ([]models.StockPrice, error)
 	UpdateStockPrice(price *models.StockPrice) error
 	DeleteStockPrice(id uint) error
+}
+
+type QuoteRepository interface {
+	CreateQuote(quote *models.Quote) error
+	GetQuoteByID(id uint) (*models.Quote, error)
+	GetQuotesBySymbolID(symbolID uint) ([]models.Quote, error)
+	GetLatestQuoteBySymbolID(symbolID uint) (*models.Quote, error)
+	UpdateQuote(quote *models.Quote) error
+	DeleteQuote(id uint) error
 }

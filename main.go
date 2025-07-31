@@ -50,5 +50,5 @@ func startAPI(config *config.Config) {
 
 func startCrawler(config *config.Config, storage *database.Storage) {
 	crawler := crawler.NewCrawler(config, storage)
-	crawler.CrawlOne()
+	crawler.CrawlRealtime()
 }

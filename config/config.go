@@ -15,6 +15,7 @@ type Config struct {
 	DatabaseName     string
 	APIVersion       string
 	FinnhubAPI       string
+	FinnhubWURL      string
 }
 
 func LoadConfig() *Config {
@@ -29,6 +30,7 @@ func LoadConfig() *Config {
 		DatabaseName:     getEnv("DB_NAME", "postgre"),
 		APIVersion:       getEnv("API_VERSION", "/api/v1"),
 		FinnhubAPI:       getEnv("FINNHUB_API", ""),
+		FinnhubWURL:      getEnv("FINNHUB_WURL", "wss://ws.finnhub.io"),
 	}
 	return cfg
 }

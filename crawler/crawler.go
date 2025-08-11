@@ -86,8 +86,20 @@ func CreateQuoteListener(quoteChan chan models.Quote, storage *database.Storage)
 	}
 }
 
-func (c *Crawler) CrawlOne() {
-	trade := c.client.GetTrade("AAPL")
+func (c *Crawler) StartCrawlCronJob() {
+	// Start a new goroutine for the cron job
+	symbols := getTier1HighActivitySymbols()
+	for {
+		for _, symbol := range symbols {
+			c.CrawlOne(symbol)
+		}
+		// Wait for a minute before the next crawl
+		time.Sleep(time.Minute)
+	}
+}
+
+func (c *Crawler) CrawlOne(symbol string) {
+	trade := c.client.GetTrade(symbol)
 	if trade != nil {
 		database.Instance.TradeRepo.CreateTrade(trade)
 	}

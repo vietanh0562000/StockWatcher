@@ -51,5 +51,5 @@ func startAPI(config *config.Config) {
 func startCrawler(config *config.Config, storage *database.Storage) {
 	resourceClient := crawler.NewAlpacaClient(config)
 	crawler := crawler.NewCrawler(config, storage, resourceClient)
-	crawler.CrawlOne()
+	crawler.StartCrawlCronJob()
 }

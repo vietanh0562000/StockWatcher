@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"log"
 	"stockwatcher/models"
 
 	"gorm.io/gorm"
@@ -15,7 +16,13 @@ func NewTradeRepository(db *gorm.DB) *TradeRepository {
 }
 
 func (r *TradeRepository) CreateTrade(trade *models.Trade) error {
-	return r.db.Create(trade).Error
+	err := r.db.Create(trade).Error
+	if err != nil {
+		log.Println("Create trade failed: ", err.Error())
+	} else {
+		log.Println("Create trade successful: ", trade.ID)
+	}
+	return err
 }
 
 func (r *TradeRepository) GetTradeByID(id uint) (*models.Trade, error) {

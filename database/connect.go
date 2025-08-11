@@ -20,7 +20,7 @@ func Connect(config *config.Config) (*gorm.DB, error) {
 	}
 
 	// Auto-migrate models
-	err = db.AutoMigrate(&models.Symbol{}, &models.StockPrice{}, &models.Quote{})
+	err = db.AutoMigrate(&models.Symbol{}, &models.Trade{}, &models.Quote{})
 	if err != nil {
 		return nil, err
 	}

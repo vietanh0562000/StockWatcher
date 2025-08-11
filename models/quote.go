@@ -3,31 +3,17 @@ package models
 import "time"
 
 type Quote struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	SymbolID  uint      `gorm:"not null;index" json:"symbol_id"`
-	Timestamp time.Time `gorm:"not null;index" json:"timestamp"`
+	ID         uint   `gorm:"primaryKey autoincrement" json:"id"`
+	SymbolName string `gorm:"not null;index" json:"symbol_name"`
 
-	// Current price
-	CurrentPrice float64 `gorm:"not null" json:"c"`
-
-	// Change from previous close
-	Change float64 `gorm:"not null" json:"d"`
-
-	// Percent change from previous close
-	PercentChange float64 `gorm:"not null" json:"dp"`
-
-	// High price of the day
-	HighPrice float64 `gorm:"not null" json:"h"`
-
-	// Low price of the day
-	LowPrice float64 `gorm:"not null" json:"l"`
-
-	// Open price of the day
-	OpenPrice float64 `gorm:"not null" json:"o"`
-
-	// Previous close price
-	PreviousClose float64 `gorm:"not null" json:"pc"`
-
+	AskPrice    float64   `gorm:"not null" json:"ap"`
+	AskSize     int64     `gorm:"not null" json:"as"`
+	AskExchange string    `gorm:"not null" json:"ax"`
+	BidPrice    float64   `gorm:"not null" json:"bp"`
+	BidSize     int64     `gorm:"not null" json:"bs"`
+	BidExchange string    `gorm:"not null" json:"bx"`
+	Conditions  []string  `gorm:"serializer:json" json:"c"`
+	Timestamp   time.Time `gorm:"not null;index" json:"t"`
 	// Relationship
-	Symbol Symbol `gorm:"foreignKey:SymbolID" json:"symbol,omitempty"`
+	Symbol Symbol `gorm:"foreignKey:SymbolName; references:Symbol" json:"symbol,omitempty"`
 }
